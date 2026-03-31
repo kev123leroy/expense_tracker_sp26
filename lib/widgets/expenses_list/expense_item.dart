@@ -1,6 +1,7 @@
 import 'package:expense_tracker_sp26/models/expense.dart';
 import 'package:flutter/material.dart';
 
+
 class ExpenseItem extends StatelessWidget{
 const ExpenseItem({super.key, required this.expense});
 final Expense expense;
@@ -22,7 +23,7 @@ Widget build(BuildContext context) {
       Row(children: [
         const Icon(Icons.alarm),
         const SizedBox(width: 8),
-        Text(expense.date.toString())
+        Text(expense.formattedDate)
       ],)
     ],)
     ],

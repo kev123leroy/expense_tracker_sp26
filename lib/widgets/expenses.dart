@@ -1,4 +1,4 @@
-import 'package:expense_tracker_sp26/models/Expense.dart';
+import 'package:expense_tracker_sp26/models/expense.dart';
 import 'package:expense_tracker_sp26/widgets/expenses_list/expenses_list.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +24,12 @@ class _ExpensesState extends State<Expenses>{
     amount: 16.00,
     date: DateTime.now(),
     category: Category.travel
+  ),
+  Expense(
+    title: 'Playstation',
+    amount: 16.00,
+    date: DateTime.now(),
+    category: Category.leisure
   ),
   ];
 @override
