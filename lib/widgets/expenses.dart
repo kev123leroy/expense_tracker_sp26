@@ -15,10 +15,37 @@ const Expenses({super.key});
 class _ExpensesState extends State<Expenses>{
   void _openAddExpenseOverlay(){
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context, 
-      builder: (ctx) => NewExpense()
+      builder: (ctx) => NewExpense(onAddExpense: _addExpense),
     );
   }
+  void _addExpense(Expense expense){
+    setState(() {
+      _registeredExpense.add(expense);
+    });
+  }
+  void _removeExpense(Expense expense){
+    final expenseIndex = _registeredExpense.indexOf(expense);
+    setState(() {
+      _registeredExpense.remove(expense);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(
+      context
+      ).showSnackBar(SnackBar(
+        duration: Duration(seconds: 5),
+        content: Text("Expense Deleted!"),
+        action: SnackBarAction(label: "undo", onPressed: (){
+         setState(() {
+          _registeredExpense.insert(expenseIndex, expense);
+          });
+        },
+        ),
+      ), 
+      );
+  }
+  
   final List<Expense> _registeredExpense = [
   Expense(
     title: 'Ginos Pizza',
@@ -41,6 +68,16 @@ class _ExpensesState extends State<Expenses>{
   ];
 @override
 Widget build(BuildContext context){
+Widget mainContent = const Center(
+  child: Text("No Expenses, please add something"),
+  );
+if (_registeredExpense.isNotEmpty){
+  mainContent = ExpensesList(
+    expenses: _registeredExpense, onRemoveExpense: _removeExpense,
+  );
+}
+
+
   return Scaffold(
 appBar: AppBar(
   title:  const Text("Expense Tracker"),
@@ -50,12 +87,10 @@ appBar: AppBar(
 ),
 
     body: Column(
-      children: [
-        Text("CHART"),
-        SizedBox(height: 30,),
-        SizedBox(
-          height: 300,
-          child: ExpensesList(expenses: _registeredExpense))
+        children: [
+          const Text("Chart"),
+          Expanded(
+            child: mainContent),
       ],
     ),
   );
