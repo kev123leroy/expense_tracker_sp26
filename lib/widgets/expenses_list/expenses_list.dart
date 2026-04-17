@@ -9,6 +9,7 @@ class ExpensesList extends StatelessWidget{
    });
 
   final List<Expense> expenses;
+  final void Function(Expense expense) onRemoveExpense;
   @override
   Widget build(BuildContext context){
     return ListView.builder(
